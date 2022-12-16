@@ -1,10 +1,14 @@
 package com.example.milwiki
 
+import android.content.ContentValues.TAG
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -56,5 +60,20 @@ class MainActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
+    }
+
+    fun onNavigationItemSelected(item: MenuItem): Boolean {
+        Log.d(TAG, "onNavigationItemSelected: ${item.title}")
+        return true
+    }
+
+    private fun toggleDrawerLayout(drawerLayout: DrawerLayout) {
+
+        if(!drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.openDrawer(GravityCompat.START)
+        }
+        else {
+            drawerLayout.closeDrawer(GravityCompat.START)
+        }
     }
 }
