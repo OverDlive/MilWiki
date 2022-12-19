@@ -28,6 +28,7 @@ class SlideshowFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+
         val slideshowViewModel =
             ViewModelProvider(this).get(SlideshowViewModel::class.java)
 
@@ -39,13 +40,5 @@ class SlideshowFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-    fun signUp(v : View) {
-        val intent = Intent(
-            getApplicationContext(),
-            signUp::class.java
-        )
-        startActivity(intent)
     }
 }
