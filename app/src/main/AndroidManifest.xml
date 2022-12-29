@@ -20,7 +20,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".ui.login.LoginActivity"
+            android:name=".ui.login.LoginFragment"
             android:exported="false"
             android:label="@string/title_activity_login" />
         <activity
@@ -39,5 +39,8 @@
                 android:value="" />
         </activity>
     </application>
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
 </manifest>
