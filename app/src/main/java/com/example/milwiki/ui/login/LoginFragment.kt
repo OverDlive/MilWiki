@@ -35,7 +35,7 @@ class LoginFragment : Fragment(), View.OnClickListener {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
 
         val binding = FragmentLoginBinding.inflate(inflater, container, false)
@@ -46,35 +46,37 @@ class LoginFragment : Fragment(), View.OnClickListener {
         btn_register = binding.btnSignUp
 
         binding.btnSignUp.setOnClickListener(this)
-        btn_login.setOnClickListener(View.OnClickListener() { //로그인 버튼 수행
-            fun onClick(v: View) {
-                val userID = et_id.text.toString()
-                val userPass = et_pass.text.toString()
+        btn_login.setOnClickListener(object : View.OnClickListener { //로그인 버튼 수행
+            override fun onClick(v: View) {
+                val userID : String = binding.editId.toString()
+                var userPass : String = et_pass.text.toString()
 
-            val responseListener: Response.Listener<String> =
-                Response.Listener { response ->
+            val responseListener : Response.Listener<String> = object : Response.Listener<String> {
+                override fun onResponse(response: String) {
                     try {
                         val jasonObject = JSONObject(response)
-                        val success = jasonObject.getBoolean("success")
-                        if (success) { //회원등록 성공한 경우
-                            val userID = jasonObject.getString("userID")
-                            val userPass = jasonObject.getString("userPassword")
-                            Toast.makeText(getApplicationContext(), "로그인 성공", Toast.LENGTH_SHORT)
-                                .show()
+                        val success: Boolean = jasonObject.getBoolean("success")
+                        if (success) {//회원등록이 성공한 경우
+                            var userID : String = jasonObject.getString("userID")
+                            var userPass : String = jasonObject.getString("userPassword")
+                            Toast.makeText(getApplicationContext(), "로그인 성공", Toast.LENGTH_SHORT).show();
                             val intent = Intent(getApplicationContext(), MainActivity::class.java)
-                            intent.putExtra("log", "User")
-                            intent.putExtra("userID", userID)
-                            startActivity(intent)
-                        } else { //회원등록 실패한 경우
-                            Toast.makeText(getApplicationContext(), "로그인 실패", Toast.LENGTH_SHORT)
-                                .show()
-                            return@Listener
+                            intent.putExtra("log", "User");
+                            intent.putExtra("userID", userID);
+                            startActivity(intent);
                         }
-                    } catch (e: JSONException) {
+                        else {
+                            //회원등록 실패한 경우
+                            Toast.makeText(getApplicationContext(), "로그인 실패", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                    }catch (e : JSONException) {
                         e.printStackTrace()
                     }
                 }
-            val loginRequest = LoginRequest(userID, userPass, responseListener)
+            }
+            // 서버로 volley를 이용해서 요청함
+            val loginRequest : LoginRequest = LoginRequest(userID, userPass, responseListener)
             val queue : RequestQueue = Volley.newRequestQueue(getApplicationContext())
             queue.add(loginRequest)
             }
